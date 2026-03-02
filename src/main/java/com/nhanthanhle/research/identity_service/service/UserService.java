@@ -2,7 +2,9 @@ package com.nhanthanhle.research.identity_service.service;
 
 import com.nhanthanhle.research.identity_service.dto.request.UserCreationRequest;
 import com.nhanthanhle.research.identity_service.dto.request.UserUpdateRequest;
+import com.nhanthanhle.research.identity_service.dto.response.ErrorCode;
 import com.nhanthanhle.research.identity_service.entity.User;
+import com.nhanthanhle.research.identity_service.exception.AppException;
 import com.nhanthanhle.research.identity_service.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +24,7 @@ public class UserService {
         User newUser = new User();
         // handle trung ten
         if (userRepository.existsByUsername(request.getUsername())) {
-            throw new RuntimeException("User existed");
+            throw new AppException(ErrorCode.USER_EXISTED);
         }
         newUser.setDob(request.getDob());
         newUser.setFirstName(request.getFirstName());
